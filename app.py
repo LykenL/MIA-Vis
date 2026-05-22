@@ -444,8 +444,8 @@ if search_query:
     display_df = display_df[display_df["Raw Text"].str.contains(search_query, case=False)]
 
 # Create visual markers and status flags
-#status_list = []
-#badges = []
+status_list = []
+badges = []
 
 for _, row in display_df.iterrows():
     is_mem = row["is_member"]
