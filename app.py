@@ -472,7 +472,7 @@ display_df["Audit Result"] = status_list
 display_df["Clinical Text Sample"] = display_df["Raw Text"].apply(lambda x: x[:75] + "..." if len(x) > 75 else x)
 
 # Rearrange columns for display
-final_cols = ["Identifier", "Clinical Text Sample", "is_member", score_col, "Audit Result", "Clinical Insights"]
+final_cols = ["Identifier", "Clinical Text Sample", "is_member", score_col, "Audit Result"]
 table_out = display_df[final_cols].rename(columns={
     "is_member": "In Training Set",
     score_col: "Breach Prob."
@@ -515,7 +515,7 @@ if not inspected_samples.empty:
                 st.markdown("**Privacy Audit Stats:**")
                 st.markdown(f"- **Ground Truth**: {'In Training Set (Member)' if row['is_member'] == 1 else 'Not in Training Set (Non-Member)'}")
                 st.markdown(f"- **Leakage Score**: <span style='font-size: 1.1rem; font-weight: bold; color: {status_color};'>{row[score_col]:.2%}</span>", unsafe_allow_html=True)
-                st.markdown(f"- **Vector Reliability**: {row['Clinical Insights']}")
+                #st.markdown(f"- **Vector Reliability**: {row['Clinical Insights']}")
 else:
     st.write("No matching patient records found.")
 
