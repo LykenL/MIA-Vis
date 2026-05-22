@@ -448,8 +448,8 @@ if search_query:
 #badges = []
 
 #for _, row in display_df.iterrows():
-    is_mem = row["is_member"]
-    prob = row[score_col]
+#    is_mem = row["is_member"]
+#    prob = row[score_col]
     
     # Conditional logic to tag status based on actual membership and prediction confidence
 #    if is_mem == 1 and prob >= 0.70:
