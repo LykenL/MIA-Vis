@@ -447,26 +447,28 @@ if search_query:
 status_list = []
 badges = []
 
+status_list = []
+badges = []
+
 for _, row in display_df.iterrows():
     is_mem = row["is_member"]
     prob = row[score_col]
-    
-    # Conditional logic to tag status based on actual membership and prediction confidence
+
     if is_mem == 1 and prob >= 0.70:
-        status_list.append("🔴 BREACHED") # what label???
-        badges.append("🚨 LIKELY MEMBER")
+        status_list.append("🔴 HIGH-CONFIDENCE MEMBER")
+        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
     elif is_mem == 1 and prob < 0.70:
-        status_list.append("🟡 VULNERABLE")
+        status_list.append("🟠 LIKELY MEMBER")
         badges.append("⚠️ PARTIAL MEMORY SIGNAL")
     elif is_mem == 0 and prob >= 0.70:
-        status_list.append("🟡 FALSE POSITIVE RISK")
+        status_list.append("🟠 FALSE POSITIVE")
         badges.append("⚠️ BOILERPLATE OVERLAP")
     else:
         status_list.append("🟢 SECURE")
-        badges.append("🛡️ LIKELY NON-MEMBER") # what label???
+        badges.append("🛡️ CONTAINS NO SIGNALS")
 
 display_df["Audit Result"] = status_list
-#display_df["Clinical Insights"] = badges
+display_df["Clinical Insights"] = badges
 
 # Truncate raw text for beautiful view
 display_df["Clinical Text Sample"] = display_df["Raw Text"].apply(lambda x: x[:75] + "..." if len(x) > 75 else x)
