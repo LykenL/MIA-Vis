@@ -387,7 +387,7 @@ with col_left:
 with col_right:
     with st.container(border=True):
         st.markdown("### 🏆 MIA Vulnerability Leaderboard")
-        st.caption("Global assessment ranking target architectures based on security leakage scores. Red zones signify compromised parameters.")
+        st.caption("Leaderboard ranking target architectures by attack success rate. Top models highlight optimal memory extraction and identification performance.")
         
         # Compile leaderboard data
         leaderboard_data = []
@@ -444,29 +444,29 @@ if search_query:
     display_df = display_df[display_df["Raw Text"].str.contains(search_query, case=False)]
 
 # Create visual markers and status flags
-status_list = []
-badges = []
+#status_list = []
+#badges = []
 
-for _, row in display_df.iterrows():
+#for _, row in display_df.iterrows():
     is_mem = row["is_member"]
     prob = row[score_col]
     
     # Conditional logic to tag status based on actual membership and prediction confidence
-    if is_mem == 1 and prob >= 0.70:
-        status_list.append("🔴 BREACHED")
-        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
-    elif is_mem == 1 and prob < 0.70:
-        status_list.append("🟡 VULNERABLE")
-        badges.append("⚠️ PARTIAL MEMORY SIGNAL")
-    elif is_mem == 0 and prob >= 0.70:
-        status_list.append("🟡 FALSE POSITIVE RISK")
-        badges.append("⚠️ BOILERPLATE OVERLAP")
-    else:
-        status_list.append("🟢 SECURE")
-        badges.append("🛡️ CONTAINS NO SIGNALS")
+#    if is_mem == 1 and prob >= 0.70:
+#        status_list.append("🔴 BREACHED")
+#        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
+#    elif is_mem == 1 and prob < 0.70:
+#        status_list.append("🟡 VULNERABLE")
+#        badges.append("⚠️ PARTIAL MEMORY SIGNAL")
+#    elif is_mem == 0 and prob >= 0.70:
+#        status_list.append("🟡 FALSE POSITIVE RISK")
+#        badges.append("⚠️ BOILERPLATE OVERLAP")
+#    else:
+#        status_list.append("🟢 SECURE")
+#        badges.append("🛡️ CONTAINS NO SIGNALS")
 
-display_df["Audit Result"] = status_list
-display_df["Clinical Insights"] = badges
+#display_df["Audit Result"] = status_list
+#display_df["Clinical Insights"] = badges
 
 # Truncate raw text for beautiful view
 display_df["Clinical Text Sample"] = display_df["Raw Text"].apply(lambda x: x[:75] + "..." if len(x) > 75 else x)
