@@ -456,13 +456,13 @@ for _, row in display_df.iterrows():
 
     if is_mem == 1 and prob >= 0.70:
         status_list.append("🔴 HIGH-CONFIDENCE MEMBER")
-        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
+        badges.append("🚨 HIGH CONFIDENCE HIT")
     elif is_mem == 1 and prob < 0.70:
         status_list.append("🟠 LIKELY MEMBER")
-        badges.append("⚠️ PARTIAL MEMORY SIGNAL")
+        badges.append("📈 MODERATE SIGNAL")
     elif is_mem == 0 and prob >= 0.70:
         status_list.append("🟠 FALSE POSITIVE")
-        badges.append("⚠️ BOILERPLATE OVERLAP")
+        badges.append("⚠️ OVERLAP / GENERIC PATTERN")
     else:
         status_list.append("🟢 SECURE")
         badges.append("🛡️ CONTAINS NO SIGNALS")
@@ -483,8 +483,8 @@ table_out = display_df[final_cols].rename(columns={
 # Streamlit Dataframe display with formatting
 st.dataframe(
     table_out.style.map(
-        lambda x: "color: #ef4444; font-weight: bold;" if x == "🔴 BREACHED" else (
-            "color: #fb923c; font-weight: bold;" if x in ["🟡 VULNERABLE", "🟡 FALSE POSITIVE RISK"] else (
+        lambda x: "color: #ef4444; font-weight: bold;" if x == "🔴 HIGH-CONFIDENCE MEMBER" else (
+            "color: #fb923c; font-weight: bold;" if x in ["🟠 LIKELY MEMBER", "🟠 FALSE POSITIVE"] else (
                 "color: #22c55e; font-weight: bold;" if x == "🟢 SECURE" else ""
             )
         ),
@@ -504,8 +504,8 @@ st.caption("Click to expand and view the full clinical record and comparison met
 inspected_samples = display_df.head(3)
 if not inspected_samples.empty:
     for idx, row in inspected_samples.iterrows():
-        status_color = "#ef4444" if row["Audit Result"] == "🔴 BREACHED" else (
-            "#fb923c" if "🟡" in row["Audit Result"] else "#22c55e"
+        status_color = "#ef4444" if row["Audit Result"] == "🔴 HIGH-CONFIDENCE MEMBER" else (
+            "#fb923c" if "�" in row["Audit Result"] else "#22c55e"
         )
         
         with st.expander(f"📋 Record ID: {row['Identifier']} | Result: {row['Audit Result']}"):
