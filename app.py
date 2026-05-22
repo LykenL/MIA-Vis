@@ -452,18 +452,18 @@ for _, row in display_df.iterrows():
     prob = row[score_col]
     
     # Conditional logic to tag status based on actual membership and prediction confidence
-#    if is_mem == 1 and prob >= 0.70:
-#        status_list.append("🔴 BREACHED")
-#        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
-#    elif is_mem == 1 and prob < 0.70:
-#        status_list.append("🟡 VULNERABLE")
-#        badges.append("⚠️ PARTIAL MEMORY SIGNAL")
-#    elif is_mem == 0 and prob >= 0.70:
-#        status_list.append("🟡 FALSE POSITIVE RISK")
-#        badges.append("⚠️ BOILERPLATE OVERLAP")
-#    else:
-#        status_list.append("🟢 SECURE")
-#        badges.append("🛡️ CONTAINS NO SIGNALS")
+    if is_mem == 1 and prob >= 0.70:
+        status_list.append("🔴 BREACHED")
+        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
+    elif is_mem == 1 and prob < 0.70:
+        status_list.append("🟡 VULNERABLE")
+        badges.append("⚠️ PARTIAL MEMORY SIGNAL")
+    elif is_mem == 0 and prob >= 0.70:
+        status_list.append("🟡 FALSE POSITIVE RISK")
+        badges.append("⚠️ BOILERPLATE OVERLAP")
+    else:
+        status_list.append("🟢 SECURE")
+        badges.append("🛡️ CONTAINS NO SIGNALS")
 
 display_df["Audit Result"] = status_list
 display_df["Clinical Insights"] = badges
