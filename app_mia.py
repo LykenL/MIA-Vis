@@ -418,7 +418,7 @@ with col_right:
 
         styled = (
             ld_df.drop(columns=["_badge_class"]).style.background_gradient(
-                cmap="OrRd", subset=["MIA AUC"], vmin=0.50, vmax=0.95
+                cmap="Blues", subset=["MIA AUC"], vmin=0.50, vmax=0.95
             )
             .format({"MIA AUC": "{:.4f}", "TPR @ FPR=10%": "{:.2%}"})
         )
