@@ -395,8 +395,8 @@ with col_right:
             leaderboard_data.append({
                 "Target Architecture": model_name,
                 "MIA AUC": info["auc"],
-                "TPR @ FPR=10%": info["tpr_at_01"],
-                "Audit Assessment": info["status"]
+                "TPR @ FPR=10%": info["tpr_at_01"]
+        #        "Audit Assessment": info["status"]
             })
             
         ld_df = pd.DataFrame(leaderboard_data)
