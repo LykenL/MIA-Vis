@@ -453,8 +453,8 @@ for _, row in display_df.iterrows():
     
     # Conditional logic to tag status based on actual membership and prediction confidence
     if is_mem == 1 and prob >= 0.70:
-        status_list.append("🔴 BREACHED")
-        badges.append("🚨 HIGH CONFIDENCE LEAKAGE")
+        status_list.append("🔴 BREACHED") # what label???
+        badges.append("🚨 LIKELY MEMBER")
     elif is_mem == 1 and prob < 0.70:
         status_list.append("🟡 VULNERABLE")
         badges.append("⚠️ PARTIAL MEMORY SIGNAL")
@@ -463,10 +463,10 @@ for _, row in display_df.iterrows():
         badges.append("⚠️ BOILERPLATE OVERLAP")
     else:
         status_list.append("🟢 SECURE")
-        badges.append("🛡️ CONTAINS NO SIGNALS")
+        badges.append("🛡️ LIKELY NON-MEMBER") # what label???
 
 display_df["Audit Result"] = status_list
-display_df["Clinical Insights"] = badges
+#display_df["Clinical Insights"] = badges
 
 # Truncate raw text for beautiful view
 display_df["Clinical Text Sample"] = display_df["Raw Text"].apply(lambda x: x[:75] + "..." if len(x) > 75 else x)
