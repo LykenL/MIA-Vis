@@ -173,14 +173,30 @@ CLINICAL_SNIPPETS = [
     "Discharge Note: Pediatric patient admitted for acute asthmatic exacerbation. Responded well to scheduled Albuterol nebulizers and oral Dexamethasone. Discharged with spacer education."
 ]
 
+# Synthetic clinical-like snippets for Synthetic-v2
+SYNTHETIC_SNIPPETS = [
+    "SIMULATED RECORD: 45-year-old virtual subject displays normal cardiovascular sinus rhythm. No significant clinical anomalies noted in the mock assessment.",
+    "SYNTHETIC PROFILE: Subject is a simulated diabetic profile. HbA1c modeled at 7.5% under synthetic glucose titration algorithms. Advised simulated lifestyle updates.",
+    "GENERATED NARRATIVE: Artificial patient admitted for virtual appendectomy simulation. Virtual post-op recovery modeled as fully stable within 48-hour synthetic window.",
+    "MOCK ECG REPORT: Left ventricular ejection fraction parameterized at 55%. Simulated cardiac output registers within normal bounds on artificial telemetry.",
+    "VIRTUAL ONCOLOGY CASE: Simulated breast cancer profile, HER2 negative, ER positive. Generated mock record for privacy auditing and differential validation.",
+    "SYNTHETIC SUMMARY: Virtual subject presents with modeled seasonal allergic rhinitis. Prescribed synthetic Loratadine 10mg daily as virtual baseline test.",
+    "SIMULATED NEUROLOGY: 67-year-old mock profile presents with minor artificial cognitive fluctuation. Mock test scores register at stable virtual baseline."
+]
+
 @st.cache_data
-def generate_patient_records(n_records: int = 100) -> pd.DataFrame:
-    """Generates mock patient records with realistic clinical markers."""
-    np.random.seed(42)
-    ids = [f"PT-{np.random.randint(10000, 99999)}" for _ in range(n_records)]
+def generate_patient_records(dataset_name: str, n_records: int = 100) -> pd.DataFrame:
+    """Generates mock patient records with realistic clinical or synthetic markers."""
+    is_synthetic = "Synthetic" in dataset_name
+    seed = 99 if is_synthetic else 42
+    np.random.seed(seed)
     
-    # Choose random texts
-    texts = [np.random.choice(CLINICAL_SNIPPETS) for _ in range(n_records)]
+    prefix = "SYN" if is_synthetic else "PT"
+    ids = [f"{prefix}-{np.random.randint(10000, 99999)}" for _ in range(n_records)]
+    
+    # Choose snippets based on dataset selection
+    snippets = SYNTHETIC_SNIPPETS if is_synthetic else CLINICAL_SNIPPETS
+    texts = [np.random.choice(snippets) for _ in range(n_records)]
     
     # 50% member distribution (standard for MIA benchmarking)
     is_member = np.random.binomial(1, 0.5, n_records)
@@ -194,8 +210,10 @@ def generate_patient_records(n_records: int = 100) -> pd.DataFrame:
     # Generate scores based on actual ground truth with noise scaled by model quality
     for model_name, info in MODELS_METRICS.items():
         auc = info["auc"]
-        # Convert AUC to an approximate standard deviation offset
-        # Better model = higher separation between members and non-members
+        # Shift scores slightly differently on synthetic data for visual validation
+        if is_synthetic:
+            auc = min(0.9999, auc + 0.015)
+            
         sep = (auc - 0.5) * 5.0
         
         # Draw probabilities from a beta or logit distribution styled based on member status
@@ -252,7 +270,7 @@ st.sidebar.markdown("""
 # 5. DATA INGESTION & METRICS COMPILATION
 # -----------------------------------------------------------------------------
 # Load standard patient records
-raw_db = generate_patient_records(100)
+raw_db = generate_patient_records(selected_dataset, 100)
 n_audited = len(raw_db)
 
 # Compute metrics based on selected models
