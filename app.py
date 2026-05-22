@@ -405,7 +405,7 @@ with col_right:
         # Beautiful Pandas Gradient Styling
         # Highlight high AUC values representing weak privacy
         styled_table = ld_df.style.background_gradient(
-            cmap="OrRd", 
+            cmap="Blues", 
             subset=["MIA AUC"],
             vmin=0.50, 
             vmax=0.95
