@@ -259,11 +259,11 @@ for model_name in MODELS_METRICS.keys():
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🔍 Risk Status Color Key")
-st.sidebar.markdown("""
-- <span class="badge-breached">🚨 HIGH LEAKAGE RISK</span> (AUC > 0.92)
-- <span class="badge-warning">⚠️ MEDIUM LEAKAGE RISK</span> (AUC 0.85 - 0.92)
-- <span class="badge-secure">🛡️ LOW LEAKAGE RISK</span> (AUC < 0.85)
-""", unsafe_allow_html=True)
+#st.sidebar.markdown("""
+#- <span class="badge-breached">🚨 HIGH LEAKAGE RISK</span> (AUC > 0.92)
+#- <span class="badge-warning">⚠️ MEDIUM LEAKAGE RISK</span> (AUC 0.85 - 0.92)
+#- <span class="badge-secure">🛡️ LOW LEAKAGE RISK</span> (AUC < 0.85)
+#""", unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
@@ -447,9 +447,9 @@ if search_query:
 #status_list = []
 #badges = []
 
-#for _, row in display_df.iterrows():
-#    is_mem = row["is_member"]
-#    prob = row[score_col]
+for _, row in display_df.iterrows():
+    is_mem = row["is_member"]
+    prob = row[score_col]
     
     # Conditional logic to tag status based on actual membership and prediction confidence
 #    if is_mem == 1 and prob >= 0.70:
@@ -465,8 +465,8 @@ if search_query:
 #        status_list.append("🟢 SECURE")
 #        badges.append("🛡️ CONTAINS NO SIGNALS")
 
-#display_df["Audit Result"] = status_list
-#display_df["Clinical Insights"] = badges
+display_df["Audit Result"] = status_list
+display_df["Clinical Insights"] = badges
 
 # Truncate raw text for beautiful view
 display_df["Clinical Text Sample"] = display_df["Raw Text"].apply(lambda x: x[:75] + "..." if len(x) > 75 else x)
